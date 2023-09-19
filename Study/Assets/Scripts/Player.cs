@@ -11,9 +11,13 @@ public class Player : MonoBehaviour
     float speed;
 
     Rigidbody2D rigid;
+    SpriteRenderer spriter;
+    Animator animator;
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        spriter = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         speed = 3;
     }
 
@@ -28,5 +32,16 @@ public class Player : MonoBehaviour
 	{
         Vector2 nextVec=inputVec.normalized * speed* Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
+        
+	}
+
+	void LateUpdate()
+	{
+		animator.SetFloat("Speed", inputVec.magnitude);
+
+		if (inputVec.x != 0)
+        {
+            spriter.flipX = inputVec.x < 0;
+        }
 	}
 }
